@@ -1,4 +1,4 @@
-# McDonaldsKitchen
+# McDonaldsKitchen && Architecht
 
 ## McDonalds Yönetim Paneli Mutfak kısmıdır. Architecht kapsamında üretilmiştir.
 
