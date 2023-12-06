@@ -30,6 +30,7 @@
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.titleLabel = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,12 +55,22 @@
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "ORDERS";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(449, 251);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Kitchen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.ClientSize = new System.Drawing.Size(1606, 621);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
             this.Name = "Kitchen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -76,6 +87,7 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label titleLabel;
+        private System.Windows.Forms.Button button1;
     }
 }
 
