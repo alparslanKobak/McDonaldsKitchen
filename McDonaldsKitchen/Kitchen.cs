@@ -28,35 +28,35 @@ namespace McDonaldsKitchen
 
         private void Kitchen_Load(object sender, EventArgs e)
         {
-            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
 
-            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
 
-            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
 
-            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderPrice = "$5", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
 
-            
+
 
 
             DisplayOrders();
@@ -91,18 +91,20 @@ namespace McDonaldsKitchen
                 // GroupBox oluştur ve özelliklerini ayarla
                 GroupBox groupBox = new GroupBox
                 {
-                    Text = orders[i].OrderName,
+                    Text = "Sipariş NO :" + orders[i].Id.ToString(),
                     Size = new Size(groupBoxWidth, groupBoxHeight),
-                    Font = new Font("Microsoft Tai Le", 14),
+                    Font = new Font("Microsoft Tai Le", 13),
                     BackColor = Color.White,
-                    AccessibilityObject = { Name = orders[i].Id.ToString() }
+                    AccessibilityObject = { Name = orders[i].Id.ToString() },
+                   
+                    
                 };
 
                 // GroupBox konumunu hesapla
                 int row = i / groupBoxesPerRow; // Her satır için GroupBox sayısını hesapla
                 int column = i % groupBoxesPerRow; // Her satırda kaçıncı GroupBox olduğunu hesapla
-                int x = column * (groupBoxWidth + horizontalSpacing) + margin; 
-                int y = row * (groupBoxHeight + verticalSpacing) + marginTop; 
+                int x = column * (groupBoxWidth + horizontalSpacing) + margin;
+                int y = row * (groupBoxHeight + verticalSpacing) + marginTop;
 
                 // Her satırın ilk GroupBox'ı için sol boşluğu ayarla
                 if (column == 0) x = margin;
@@ -112,7 +114,7 @@ namespace McDonaldsKitchen
                 // Sipariş detayları için Label'lar ekle
                 Label priceLabel = new Label
                 {
-                    Text = "Price: " + orders[i].OrderPrice,
+                    Text = "Price: " + orders[i].OrderName,
                     Location = new Point(10, 20),
                     Size = new Size(groupBoxWidth - 20, 20)
                 };
@@ -152,11 +154,5 @@ namespace McDonaldsKitchen
         }
     }
 
-    public class Order
-    {
-        public int Id { get; set; }
-        public string OrderName { get; set; }
-        public string OrderPrice { get; set; }
-        public string OrderStatus { get; set; }
-    }
+
 }
