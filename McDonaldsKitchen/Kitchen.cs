@@ -1,4 +1,5 @@
-﻿using System;
+﻿using McDonaldsCoreApp;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,7 @@ namespace McDonaldsKitchen
     public partial class Kitchen : Form
     {
 
+        Product product = new Product();
 
         List<Order> orders = new List<Order>();
         public Kitchen()
