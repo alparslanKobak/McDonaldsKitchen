@@ -28,112 +28,215 @@ namespace McDonaldsKitchen
 
         private void Kitchen_Load(object sender, EventArgs e)
         {
-            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            Product product1 = new Product { Id = 1, Name = "Big Mac", Quantity = 2, OrderId = 1 };
+            Product product2 = new Product { Id = 2, Name = "Kola", Quantity = 1, OrderId = 1 };
+            Product product3 = new Product { Id = 3, Name = "Patates Kızartması", Quantity = 1, OrderId = 1 };
+            Product product4 = new Product { Id = 4, Name = "McChicken", Quantity = 1, OrderId = 2 };
+            Product product5 = new Product { Id = 5, Name = "Fanta", Quantity = 2, OrderId = 2 };
 
-            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            Order order1 = new Order
+            {
+                Id = 1,
+                OrderStatus = "Hazırlanıyor",
+                Products = new List<Product> { product1, product2, product3, product1, product2, product3, product1, product2, product3, product1, product2, product3 }
+            };
 
-            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            // İkinci sipariş örneği
+            Order order2 = new Order
+            {
+                Id = 2,
+                OrderStatus = "Hazırlanıyor",
+                Products = new List<Product> { product4, product5 }
+            };
+            Order order3 = new Order
+            {
+                Id = 3,
+                OrderStatus = "Hazırlanıyor",
+                Products = new List<Product> { product1, product2, product3, product1, product2, product3, product1, product2, product3, product1, product2, product3 }
+            };
 
-            orders.Add(new Order() { Id = 1, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 2, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 3, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 4, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 5, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
-            orders.Add(new Order() { Id = 6, OrderName = "Big Mac", OrderStatus = "Hazırlanıyor" });
+            Order order4 = new Order
+            {
+                Id = 4,
+                OrderStatus = "Hazırlanıyor",
+                Products = new List<Product> { product4, product5 }
+            };
+
+            Order order5 = new Order
+            {
+                Id = 5,
+                OrderStatus = "Hazırlanıyor",
+                Products = new List<Product> { product1, product2, product3, product1, product2, product3, product1, product2, product3, product1, product2, product3 }
+            };
+
+            // İkinci sipariş örneği
+            Order order6 = new Order
+            {
+                Id = 6,
+                OrderStatus = "Hazırlanıyor",
+                Products = new List<Product> { product4, product5 }
+            };
+            Order order7 = new Order
+            {
+                Id = 7,
+                OrderStatus = "Hazırlanıyor",
+                Products = new List<Product> { product1, product2, product3, product1, product2, product3, product1, product2, product3, product1, product2, product3 }
+            };
+
+            Order order8 = new Order
+            {
+                Id = 8,
+                OrderStatus = "Hazırlanıyor",
+                Products = new List<Product> { product4, product5 }
+            };
+
+            orders.Add(order1);
+            orders.Add(order2);
+            orders.Add(order3);
+            orders.Add(order4);
+            orders.Add(order5);
+            orders.Add(order6);
+            orders.Add(order7);
+            orders.Add(order8);
+
+
 
 
 
 
             DisplayOrders();
         }
+        private void GroupBox_Click(object sender, EventArgs e)
+        {
+            GroupBox groupBox = sender as GroupBox;
+            if (groupBox != null)
+            {
+                Order order = groupBox.Tag as Order;
+                if (order != null)
+                {
+                    if (order.OrderStatus.ToLower() == "hazırlanıyor")
+                    {
+                        groupBox.BackColor = Color.Green;
+                        order.OrderStatus = "Hazır"; // Order'ın durumunu güncelle
+                    }
+                    else if (order.OrderStatus.ToLower() == "hazır")
+                    {
+                        groupBox.BackColor = Color.White;
+                        order.OrderStatus = "teslim"; // Order'ın durumunu güncelle
+                        orders.Remove(order);
+                    }
+
+                }
+            }
+
+            DisplayOrders();
+        }
+
 
         private void DisplayOrders()
         {
             mainPanel.Controls.Clear(); // Mevcut kontrolleri temizle
 
-            // GroupBox ölçülerini ve aralıkları tanımla
-            int groupBoxWidth = 200; // GroupBox genişliği
-            int groupBoxHeight = 250; // GroupBox yüksekliği
-            int horizontalSpacing = 30; // Yatay aralığı genişlet
-            int verticalSpacing = 30; // Dikey aralığı genişlet
-            int marginTop = 40; // İlk satır için üst boşluk
-            int margin = 20; // İlk GroupBox için sol boşluk
+            int groupBoxWidth = 300;
+            int groupBoxHeight = 250;
+            int horizontalSpacing = 30;
+            int verticalSpacing = 30;
+            int marginTop = 40;
+            int marginLeft = 20;
 
-            // Maksimum GroupBox sayısını pencere genişliğine göre belirle
-            int groupBoxesPerRow;
-            if (mainPanel.Width < this.MinimumSize.Width)
-            {
-                groupBoxesPerRow = 1;
-            }
-            else
-            {
-                groupBoxesPerRow = this.WindowState == FormWindowState.Maximized ? 8 : (mainPanel.Width - margin) / (groupBoxWidth + horizontalSpacing);
-                if (groupBoxesPerRow == 0) groupBoxesPerRow = 1; // Sıfırdan kaçınmak için kontrol et
-            }
+            int groupBoxesPerRow = CalculateGroupBoxesPerRow(mainPanel.Width, groupBoxWidth, horizontalSpacing, marginLeft);
+
 
             for (int i = 0; i < orders.Count; i++)
             {
-                // GroupBox oluştur ve özelliklerini ayarla
-                GroupBox groupBox = new GroupBox
+
+
+
+                GroupBox groupBox = CreateGroupBox(orders[i], groupBoxWidth, groupBoxHeight);
+                groupBox.Tag = orders[i]; // GroupBox ile ilişkili Order nesnesini sakla
+
+                // GroupBox tıklama olayını ekle
+                groupBox.Click += GroupBox_Click;
+
+                Panel scrollablePanel = CreateScrollablePanel(groupBoxWidth, (groupBoxHeight - 100));
+                groupBox.Controls.Add(scrollablePanel);
+
+
+                //groupBox.Controls.Add(scrollablePanel);
+
+
+
+
+                foreach (Product product in orders[i].Products)
                 {
-                    Text = "Sipariş NO :" + orders[i].Id.ToString(),
-                    Size = new Size(groupBoxWidth, groupBoxHeight),
-                    Font = new Font("Microsoft Tai Le", 13),
-                    BackColor = Color.White,
-                    AccessibilityObject = { Name = orders[i].Id.ToString() },
-                   
-                    
-                };
+                    AddProductToPanel(scrollablePanel, product, groupBoxWidth);
+                }
 
-                // GroupBox konumunu hesapla
-                int row = i / groupBoxesPerRow; // Her satır için GroupBox sayısını hesapla
-                int column = i % groupBoxesPerRow; // Her satırda kaçıncı GroupBox olduğunu hesapla
-                int x = column * (groupBoxWidth + horizontalSpacing) + margin;
-                int y = row * (groupBoxHeight + verticalSpacing) + marginTop;
-
-                // Her satırın ilk GroupBox'ı için sol boşluğu ayarla
-                if (column == 0) x = margin;
-
-                groupBox.Location = new Point(x, y);
-
-                // Sipariş detayları için Label'lar ekle
-                Label priceLabel = new Label
-                {
-                    Text = "Price: " + orders[i].OrderName,
-                    Location = new Point(10, 20),
-                    Size = new Size(groupBoxWidth - 20, 20)
-                };
-
-                Label statusLabel = new Label
-                {
-                    Text = "Status: " + orders[i].OrderStatus,
-                    Location = new Point(10, 40),
-                    Size = new Size(groupBoxWidth - 20, 20)
-                };
-
-                // Label'ları GroupBox'a ekle
-                groupBox.Controls.Add(priceLabel);
-                groupBox.Controls.Add(statusLabel);
-
-                // GroupBox'ı mainPanel'e ekle
+                PositionGroupBox(groupBox, i, groupBoxesPerRow, groupBoxWidth, groupBoxHeight, horizontalSpacing, verticalSpacing, marginTop, marginLeft);
                 mainPanel.Controls.Add(groupBox);
+
             }
         }
+
+
+        private int CalculateGroupBoxesPerRow(int panelWidth, int groupBoxWidth, int spacing, int marginLeft)
+        {
+            // Eğer pencere genişliği minimum genişlikten küçükse, bir satıra bir GroupBox sığdır
+            int widthAvailable = panelWidth - marginLeft; // Sol boşluk düşüldükten sonra kullanılabilir genişlik
+            int groupBoxesPerRow = widthAvailable / (groupBoxWidth + spacing);
+            return groupBoxesPerRow > 0 ? groupBoxesPerRow : 1;
+        }
+
+        private GroupBox CreateGroupBox(Order order, int width, int height)
+        {
+            return new GroupBox
+            {
+                Text = "Sipariş NO: " + order.Id + " || " + order.OrderStatus,
+                Size = new Size(width, height),
+                Font = new Font("Microsoft Tai Le", 14, FontStyle.Bold),
+                BackColor = order.OrderStatus.ToLower() == "hazırlanıyor" ? Color.White : Color.Green,
+
+            };
+        }
+
+        private Panel CreateScrollablePanel(int width, int height)
+        {
+            return new Panel
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll = true,
+                Width = width,
+                Height = height
+            };
+        }
+
+
+
+        private void AddProductToPanel(Panel panel, Product product, int panelWidth)
+        {
+            Label nameLabel = new Label
+            {
+                Text = product.Quantity.ToString() + " X " + product.Name,
+                AutoSize = true,
+                Location = new Point(10, panel.Controls.Count * 20)
+            };
+
+
+
+            panel.Controls.Add(nameLabel);
+
+        }
+
+        private void PositionGroupBox(GroupBox groupBox, int index, int groupBoxesPerRow, int groupBoxWidth, int groupBoxHeight, int horizontalSpacing, int verticalSpacing, int marginTop, int marginLeft)
+        {
+            int row = index / groupBoxesPerRow;
+            int column = index % groupBoxesPerRow;
+            groupBox.Location = new Point(
+                marginLeft + (column * (groupBoxWidth + horizontalSpacing)),
+                marginTop + (row * (groupBoxHeight + verticalSpacing))
+            );
+        }
+
 
         private void Kitchen_SizeChanged(object sender, EventArgs e)
         {
