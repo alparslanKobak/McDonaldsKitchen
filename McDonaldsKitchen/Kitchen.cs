@@ -13,17 +13,12 @@ namespace McDonaldsKitchen
 {
     public partial class Kitchen : Form
     {
-
-        Product product = new Product();
-
         List<Order> orders = new List<Order>();
         public Kitchen()
         {
             InitializeComponent();
-
             // Daha fazla sipariş ekleyebilirsiniz...
             this.MinimumSize = new Size(290, this.MinimumSize.Height);
-
         }
 
         private void Kitchen_Load(object sender, EventArgs e)
@@ -68,7 +63,6 @@ namespace McDonaldsKitchen
                 OrderStatus = "Hazırlanıyor",
                 Products = new List<Product> { product1, product2, product3, product1, product2, product3, product1, product2, product3, product1, product2, product3 }
             };
-
             // İkinci sipariş örneği
             Order order6 = new Order
             {
@@ -118,11 +112,13 @@ namespace McDonaldsKitchen
                     {
                         groupBox.BackColor = Color.Green;
                         order.OrderStatus = "Hazır"; // Order'ın durumunu güncelle
+                        Console.Beep();
                     }
                     else if (order.OrderStatus.ToLower() == "hazır")
                     {
                         groupBox.BackColor = Color.White;
                         order.OrderStatus = "teslim"; // Order'ın durumunu güncelle
+                        Console.Beep();
                         orders.Remove(order);
                     }
 

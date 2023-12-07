@@ -52,9 +52,9 @@
             this.titleLabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.titleLabel.Location = new System.Drawing.Point(673, 9);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(257, 75);
+            this.titleLabel.Size = new System.Drawing.Size(332, 75);
             this.titleLabel.TabIndex = 0;
-            this.titleLabel.Text = "ORDERS";
+            this.titleLabel.Text = "O R D E R S";
             // 
             // mainPanel
             // 
