@@ -1,19 +1,21 @@
 ﻿using McDonaldsCoreApp;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
+using System.Net.Sockets;
+using System.Net;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.Json;
+
 
 namespace McDonaldsKitchen
 {
     public partial class Kitchen : Form
     {
-        List<Order> orders = new List<Order>();
+        List<Order> _orders = new List<Order>();
         public Kitchen()
         {
             InitializeComponent();
@@ -22,6 +24,13 @@ namespace McDonaldsKitchen
         }
 
         private void Kitchen_Load(object sender, EventArgs e)
+        {
+            InitializeMocks();
+            DisplayOrders();
+            ReceiveOrdersFromServer();
+        }
+
+        public void InitializeMocks()
         {
             Product product1 = new Product { Id = 1, Name = "Big Mac", Quantity = 2, OrderId = 1 };
             Product product2 = new Product { Id = 2, Name = "Kola", Quantity = 1, OrderId = 1 };
@@ -32,7 +41,7 @@ namespace McDonaldsKitchen
             Order order1 = new Order
             {
                 Id = 1,
-                OrderStatus = "Hazırlanıyor",
+                OrderStatus = "hazırlanıyor",
                 Products = new List<Product> { product1, product2, product3, product1, product2, product3, product1, product2, product3, product1, product2, product3 }
             };
 
@@ -40,65 +49,58 @@ namespace McDonaldsKitchen
             Order order2 = new Order
             {
                 Id = 2,
-                OrderStatus = "Hazırlanıyor",
+                OrderStatus = "hazırlanıyor",
                 Products = new List<Product> { product4, product5 }
             };
             Order order3 = new Order
             {
                 Id = 3,
-                OrderStatus = "Hazırlanıyor",
+                OrderStatus = "hazırlanıyor",
                 Products = new List<Product> { product1, product2, product3, product1, product2, product3, product1, product2, product3, product1, product2, product3 }
             };
 
             Order order4 = new Order
             {
                 Id = 4,
-                OrderStatus = "Hazırlanıyor",
+                OrderStatus = "hazırlanıyor",
                 Products = new List<Product> { product4, product5 }
             };
 
             Order order5 = new Order
             {
                 Id = 5,
-                OrderStatus = "Hazırlanıyor",
+                OrderStatus = "hazırlanıyor",
                 Products = new List<Product> { product1, product2, product3, product1, product2, product3, product1, product2, product3, product1, product2, product3 }
             };
             // İkinci sipariş örneği
             Order order6 = new Order
             {
                 Id = 6,
-                OrderStatus = "Hazırlanıyor",
+                OrderStatus = "hazırlanıyor",
                 Products = new List<Product> { product4, product5 }
             };
             Order order7 = new Order
             {
                 Id = 7,
-                OrderStatus = "Hazırlanıyor",
+                OrderStatus = "hazırlanıyor",
                 Products = new List<Product> { product1, product2, product3, product1, product2, product3, product1, product2, product3, product1, product2, product3 }
             };
 
             Order order8 = new Order
             {
                 Id = 8,
-                OrderStatus = "Hazırlanıyor",
+                OrderStatus = "hazır",
                 Products = new List<Product> { product4, product5 }
             };
 
-            orders.Add(order1);
-            orders.Add(order2);
-            orders.Add(order3);
-            orders.Add(order4);
-            orders.Add(order5);
-            orders.Add(order6);
-            orders.Add(order7);
-            orders.Add(order8);
-
-
-
-
-
-
-            DisplayOrders();
+            _orders.Add(order1);
+            _orders.Add(order2);
+            _orders.Add(order3);
+            _orders.Add(order4);
+            _orders.Add(order5);
+            _orders.Add(order6);
+            _orders.Add(order7);
+            _orders.Add(order8);
         }
         private void GroupBox_Click(object sender, EventArgs e)
         {
@@ -111,7 +113,7 @@ namespace McDonaldsKitchen
                     if (order.OrderStatus.ToLower() == "hazırlanıyor")
                     {
                         groupBox.BackColor = Color.Green;
-                        order.OrderStatus = "Hazır"; // Order'ın durumunu güncelle
+                        order.OrderStatus = "hazır"; // Order'ın durumunu güncelle
                         Console.Beep();
                     }
                     else if (order.OrderStatus.ToLower() == "hazır")
@@ -119,7 +121,7 @@ namespace McDonaldsKitchen
                         groupBox.BackColor = Color.White;
                         order.OrderStatus = "teslim"; // Order'ın durumunu güncelle
                         Console.Beep();
-                        orders.Remove(order);
+                        _orders.Remove(order);
                     }
                     //
 
@@ -127,6 +129,7 @@ namespace McDonaldsKitchen
             }
 
             DisplayOrders();
+            ReceiveOrdersFromServer();
         }
 
 
@@ -144,13 +147,13 @@ namespace McDonaldsKitchen
             int groupBoxesPerRow = CalculateGroupBoxesPerRow(mainPanel.Width, groupBoxWidth, horizontalSpacing, marginLeft);
 
 
-            for (int i = 0; i < orders.Count; i++)
+            for (int i = 0; i < _orders.Count; i++)
             {
 
 
 
-                GroupBox groupBox = CreateGroupBox(orders[i], groupBoxWidth, groupBoxHeight);
-                groupBox.Tag = orders[i]; // GroupBox ile ilişkili Order nesnesini sakla
+                GroupBox groupBox = CreateGroupBox(_orders[i], groupBoxWidth, groupBoxHeight);
+                groupBox.Tag = _orders[i]; // GroupBox ile ilişkili Order nesnesini sakla
 
                 // GroupBox tıklama olayını ekle
                 groupBox.Click += GroupBox_Click;
@@ -164,7 +167,7 @@ namespace McDonaldsKitchen
 
 
 
-                foreach (Product product in orders[i].Products)
+                foreach (Product product in _orders[i].Products)
                 {
                     AddProductToPanel(scrollablePanel, product, groupBoxWidth);
                 }
@@ -252,7 +255,72 @@ namespace McDonaldsKitchen
         {
 
         }
+
+        public void StartServer() // 
+        {
+            IPAddress localAddr = IPAddress.Parse("192.168.88.1");
+            int port = 1521;
+
+            TcpListener server = new TcpListener(localAddr, port);
+            server.Start();
+
+            Console.WriteLine("Server waiting for connections...");
+
+            while (true)
+            {
+                using (TcpClient client = server.AcceptTcpClient())
+                using (NetworkStream stream = client.GetStream())
+                {
+                    BinaryFormatter formatter = new BinaryFormatter();
+
+                    // İstemciden List<Order> nesnesini al (Eğer gönderilen veri varsa)
+                    List<Order> receivedOrders = (List<Order>)formatter.Deserialize(stream);
+
+                    // Alınan Order'ları işle
+                    foreach (Order order in receivedOrders)
+                    {
+                        // Alınan sipariş ile ilgili işlemleri burada yapabilirsiniz.
+                        //MessageBox.Show($"Received Order: {order.Id}, Status: {order.OrderStatus}");
+                        _orders.Add(order);
+
+                    }
+
+
+                }
+            }
+
+            // Not: Gerçek bir uygulamada, sunucu kodu genellikle bir hizmet olarak sürekli çalışır.
+        }
+
+        public void ReceiveOrdersFromServer()
+        {
+            IPAddress serverAddr = IPAddress.Parse("192.168.88.1");
+            int serverPort = 1071;
+
+            // İstemci
+            Task.Run(() =>
+            {
+                
+                    using (TcpClient client = new TcpClient(serverAddr.ToString(), serverPort))
+                    using (NetworkStream stream = client.GetStream())
+                    {
+                        // List<Order> nesnesini JSON'a dönüştür
+                        string json = JsonSerializer.Serialize(_orders);
+
+                        // JSON string'ini byte dizisine dönüştür
+                        byte[] jsonBytes = Encoding.UTF8.GetBytes(json);
+
+                        // Byte dizisinin uzunluğunu gönder (opsiyonel, ancak alıcı tarafın ne kadar veri okuyacağını bilmek için yararlı olabilir)
+                        byte[] lengthPrefix = BitConverter.GetBytes(jsonBytes.Length);
+                        stream.Write(lengthPrefix, 0, lengthPrefix.Length);
+
+                        // JSON verisini gönder
+                        stream.Write(jsonBytes, 0, jsonBytes.Length);
+                    }
+                
+            });
+            
+        }
+
     }
-
-
 }
