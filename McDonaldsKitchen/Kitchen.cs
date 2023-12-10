@@ -27,7 +27,7 @@ namespace McDonaldsKitchen
         {
             InitializeMocks();
             DisplayOrders();
-            ReceiveOrdersFromServer();
+            TcpJsonGonder();
         }
 
         public void InitializeMocks()
@@ -129,7 +129,7 @@ namespace McDonaldsKitchen
             }
 
             DisplayOrders();
-            ReceiveOrdersFromServer();
+            TcpJsonGonder();
         }
 
 
@@ -256,10 +256,10 @@ namespace McDonaldsKitchen
 
         }
 
-        public void StartServer() // 
+        public void TcpJsonAl(string IpAdress = "192.168.88.1", int port=1453) // 
         {
-            IPAddress localAddr = IPAddress.Parse("192.168.88.1");
-            int port = 1521;
+            IPAddress localAddr = IPAddress.Parse(IpAdress);
+            
 
             TcpListener server = new TcpListener(localAddr, port);
             server.Start();
@@ -292,10 +292,10 @@ namespace McDonaldsKitchen
             // Not: Gerçek bir uygulamada, sunucu kodu genellikle bir hizmet olarak sürekli çalışır.
         }
 
-        public void ReceiveOrdersFromServer()
+        public void TcpJsonGonder(string IpAdress= "192.168.88.1", int serverPort = 1071)
         {
-            IPAddress serverAddr = IPAddress.Parse("192.168.88.1");
-            int serverPort = 1071;
+            IPAddress serverAddr = IPAddress.Parse(IpAdress);
+            
 
             // İstemci
             Task.Run(() =>
