@@ -259,7 +259,7 @@ namespace McDonaldsKitchen
 
         }
 
-        public void JsonVeriDinle(string IpAddress = "192.168.88.1", int port = 1071)
+        public void JsonVeriDinle(string IpAddress = "192.168.88.1", int port = 1453)
         {
             IPAddress localAddr = IPAddress.Parse(IpAddress);
 
