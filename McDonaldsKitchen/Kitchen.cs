@@ -29,7 +29,7 @@ namespace McDonaldsKitchen
             DisplayOrders();
             TcpJsonGonder();
 
-            JsonVeriDinle();
+            //JsonVeriDinle();
         }
 
         public void InitializeMocks()
@@ -259,47 +259,56 @@ namespace McDonaldsKitchen
 
         }
 
-        public void JsonVeriDinle(string IpAddress = "192.168.88.1", int port = 1453)
+        public void JsonVeriDinle(string IpAddress = "192.168.88.1", int port = 1071)
         {
+            // Dinleyici kişinin IP adresini alır. Yani Göndericinin Gönderdiği IP adresi ile aynı olmalıdır !!!!
             IPAddress localAddr = IPAddress.Parse(IpAddress);
 
-            // 
-            TcpListener server = new TcpListener(localAddr, port);
+            // Dinlenecek portu belirle
+            TcpListener server = new TcpListener(IPAddress.Any, port);
             server.Start();
 
             Task.Run(() => // Asenkron iş parçacığında server dinlemeye başlar
             {
                 while (true)
                 {
-                    using (TcpClient client = server.AcceptTcpClient())
-                    using (NetworkStream stream = client.GetStream())
+                    try
                     {
-                        byte[] lengthBytes = new byte[4];
-                        stream.Read(lengthBytes, 0, 4);
-                        int length = BitConverter.ToInt32(lengthBytes, 0);
-
-                        byte[] jsonBytes = new byte[length];
-                        stream.Read(jsonBytes, 0, jsonBytes.Length);
-
-                        string jsonString = Encoding.UTF8.GetString(jsonBytes);
-
-                        List<Order> receivedOrders = JsonSerializer.Deserialize<List<Order>>(jsonString);
-
-                        // UI güncellemeleri UI thread'inde yapılmalı
-                        this.Invoke((MethodInvoker)delegate
+                        using (TcpClient client = server.AcceptTcpClient())
+                        using (NetworkStream stream = client.GetStream())
                         {
-                            _orders.Clear();
-                            foreach (Order order in receivedOrders)
+                            byte[] lengthBytes = new byte[4];
+                            stream.Read(lengthBytes, 0, 4);
+                            int length = BitConverter.ToInt32(lengthBytes, 0);
+
+                            byte[] jsonBytes = new byte[length];
+                            stream.Read(jsonBytes, 0, jsonBytes.Length);
+
+                            string jsonString = Encoding.UTF8.GetString(jsonBytes);
+
+                            List<Order> receivedOrders = JsonSerializer.Deserialize<List<Order>>(jsonString);
+
+                            // UI güncellemeleri UI thread'inde yapılmalı
+                            this.Invoke((MethodInvoker)delegate
                             {
-                                if (order.OrderStatus.ToLower() != "teslim")
+                                _orders.Clear();
+                                foreach (Order order in receivedOrders)
                                 {
-                                    _orders.Add(order);
-                                    DisplayOrders(); // UI güncellemesi
+                                    if (order.OrderStatus.ToLower() != "teslim")
+                                    {
+                                        _orders.Add(order);
+                                        DisplayOrders(); // UI güncellemesi
+                                    }
                                 }
-                            }
 
 
-                        });
+                            });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+
+                        continue;
                     }
                 }
             });
