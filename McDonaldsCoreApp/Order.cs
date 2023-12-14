@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace McDonaldsCoreApp
 {
-    
+
     public class Order
     {
         public int Id { get; set; }
@@ -12,10 +12,6 @@ namespace McDonaldsCoreApp
         public string OrderStatus { get; set; }
 
         public List<Product> Products { get; set; }
-
-       
-
-
 
     }
 }

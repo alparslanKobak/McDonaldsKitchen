@@ -44,6 +44,7 @@
             this.headerPanel.Name = "headerPanel";
             this.headerPanel.Size = new System.Drawing.Size(1613, 84);
             this.headerPanel.TabIndex = 0;
+            this.headerPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.headerPanel_Paint);
             // 
             // titleLabel
             // 
@@ -55,6 +56,7 @@
             this.titleLabel.Size = new System.Drawing.Size(332, 75);
             this.titleLabel.TabIndex = 0;
             this.titleLabel.Text = "O R D E R S";
+            this.titleLabel.Click += new System.EventHandler(this.titleLabel_Click);
             // 
             // mainPanel
             // 
