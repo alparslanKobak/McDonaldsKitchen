@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace McDonaldsCoreApp
 {
-    //[Serializable]
+  
     public class Product
     {
         public int Id { get; set; }
@@ -21,4 +21,5 @@ namespace McDonaldsCoreApp
 
         public int PreperationTime { get; set; }
     }
+
 }
