@@ -28,6 +28,8 @@ namespace McDonaldsKitchen
             InitializeMocks();
             DisplayOrders();
             TcpJsonGonder();
+
+            JsonVeriDinle();
         }
 
         public void InitializeMocks()
@@ -114,6 +116,7 @@ namespace McDonaldsKitchen
                     {
                         groupBox.BackColor = Color.Green;
                         order.OrderStatus = "hazır"; // Order'ın durumunu güncelle
+                        
                         Console.Beep();
                     }
                     else if (order.OrderStatus.ToLower() == "hazır")
@@ -256,40 +259,52 @@ namespace McDonaldsKitchen
 
         }
 
-        public void TcpJsonAl(string IpAdress = "192.168.88.1", int port=1453) // 
+        public void JsonVeriDinle(string IpAddress = "192.168.88.1", int port = 1071)
         {
-            IPAddress localAddr = IPAddress.Parse(IpAdress);
-            
+            IPAddress localAddr = IPAddress.Parse(IpAddress);
 
+            // 
             TcpListener server = new TcpListener(localAddr, port);
             server.Start();
 
-            Console.WriteLine("Server waiting for connections...");
-
-            while (true)
+            Task.Run(() => // Asenkron iş parçacığında server dinlemeye başlar
             {
-                using (TcpClient client = server.AcceptTcpClient())
-                using (NetworkStream stream = client.GetStream())
+                while (true)
                 {
-                    BinaryFormatter formatter = new BinaryFormatter();
-
-                    // İstemciden List<Order> nesnesini al (Eğer gönderilen veri varsa)
-                    List<Order> receivedOrders = (List<Order>)formatter.Deserialize(stream);
-
-                    // Alınan Order'ları işle
-                    foreach (Order order in receivedOrders)
+                    using (TcpClient client = server.AcceptTcpClient())
+                    using (NetworkStream stream = client.GetStream())
                     {
-                        // Alınan sipariş ile ilgili işlemleri burada yapabilirsiniz.
-                        //MessageBox.Show($"Received Order: {order.Id}, Status: {order.OrderStatus}");
-                        _orders.Add(order);
+                        byte[] lengthBytes = new byte[4];
+                        stream.Read(lengthBytes, 0, 4);
+                        int length = BitConverter.ToInt32(lengthBytes, 0);
 
+                        byte[] jsonBytes = new byte[length];
+                        stream.Read(jsonBytes, 0, jsonBytes.Length);
+
+                        string jsonString = Encoding.UTF8.GetString(jsonBytes);
+
+                        List<Order> receivedOrders = JsonSerializer.Deserialize<List<Order>>(jsonString);
+
+                        // UI güncellemeleri UI thread'inde yapılmalı
+                        this.Invoke((MethodInvoker)delegate
+                        {
+                            _orders.Clear();
+                            foreach (Order order in receivedOrders)
+                            {
+                                if (order.OrderStatus.ToLower() != "teslim")
+                                {
+                                    _orders.Add(order);
+                                    DisplayOrders(); // UI güncellemesi
+                                }
+                            }
+
+
+                        });
                     }
-
-
                 }
-            }
+            });
 
-            // Not: Gerçek bir uygulamada, sunucu kodu genellikle bir hizmet olarak sürekli çalışır.
+
         }
 
         public void TcpJsonGonder(string IpAdress= "192.168.88.1", int serverPort = 1071)
